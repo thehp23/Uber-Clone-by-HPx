@@ -1,0 +1,5 @@
+server.js -> app.js -> services -> models -> controllers -> routes
+
+server.js -> db
+
+app.js -> .env
