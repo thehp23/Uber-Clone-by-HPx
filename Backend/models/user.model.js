@@ -36,7 +36,7 @@ userSchema.methods.generateAuthToken = () =>{ //jwt Authentication
     return token;//token generated
 }
 
-userSchema.methods.comparePassword = async(password) =>{ //compare password with the help of bcrypt
+userSchema.methods.comparePassword = async function (password){ //compare password with the help of bcrypt
     return await bcrypt.compare(password,this.password);
 }
 

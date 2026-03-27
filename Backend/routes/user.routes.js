@@ -10,7 +10,10 @@ router.post('/register',[ //here testing perform
 ],userController.registerUser ) //user register
 
 
-
+router.post('/login',[
+     body('email').isEmail().withMessage('Invalid Email'),
+     body('password').isLength({min:8}).withMessage('Password must be atleast 8 characters')
+],userController.loginUser)
 
 
 
