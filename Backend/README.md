@@ -208,3 +208,87 @@ curl -X POST \
   "message": "Invalid email or password"
 }
 ```
+
+## Endpoint: `/users/profile`
+
+### Method: `POST`
+
+### Description:
+This endpoint allows authenticated users to retrieve their profile information. The endpoint requires a valid JWT token for authentication.
+
+### Request Headers:
+- `Authorization`: Bearer token (JWT)
+
+### Response:
+#### Success Response:
+- **Status Code:** `200 OK`
+- **Body:**
+
+```json
+{
+  "_id": "string",
+  "fullname": {
+    "firstname": "string",
+    "lastname": "string"
+  },
+  "email": "string",
+  "socketId": "string (optional)"
+}
+```
+
+#### Error Response:
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+
+```json
+{
+  "message": "Authentication failed"
+}
+```
+
+### Example Request:
+```bash
+curl -X POST \
+  http://localhost:3000/users/profile \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```
+
+---
+
+## Endpoint: `/users/logout`
+
+### Method: `POST`
+
+### Description:
+This endpoint allows authenticated users to log out by clearing the authentication token and blacklisting it.
+
+### Request Headers:
+- `Authorization`: Bearer token (JWT)
+
+### Response:
+#### Success Response:
+- **Status Code:** `200 OK`
+- **Body:**
+
+```json
+{
+  "message": "Logged Out"
+}
+```
+
+#### Error Response:
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+
+```json
+{
+  "message": "Authentication failed"
+}
+```
+
+### Example Request:
+```bash
+curl -X POST \
+  http://localhost:3000/users/logout \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```

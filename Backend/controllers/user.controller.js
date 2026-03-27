@@ -1,7 +1,8 @@
 const userModel = require('../models/user.model');
 const userService = require('../services/user.service')
 const { validationResult } = require('express-validator');
-
+const jwt = require('jsonwebtoken')
+const blacklistTokenModel = require('../models/blacklistToken.model')
 
 
 
@@ -34,8 +35,8 @@ module.exports.registerUser = async(req,res,next) =>{ //user register
     })//responded to the user with token
 
 }
-module.exports.loginUser = async(req,res,next)=>{
-    const errors = validationResult(req);
+module.exports.loginUser = async(req,res,next)=>{ //user login
+    const errors = validationResult(req);// If any errors occured in body of express-validator then show the result here as an error
     if(!errors.isEmpty()){
         return res.status(400).json({
             success : false,
@@ -68,10 +69,23 @@ module.exports.loginUser = async(req,res,next)=>{
             message : "Invalid email aor password"
         }) //if password does not match with original
     }
+
+
     const token = user.generateAuthToken();//once again token generated at login page
+    res.cookie("token", token)//after all authentication we work with cookie and send as response from server to browser and store in browser cookie
+
     user.password = undefined;
     res.status(200).json({
         success : true,
         token,user
     })//responded to the user with token
+}
+module.exports.getUserProfile = async(req,res,next)=>{ //user profile
+    res.status(200).json(req.user)
+}
+module.exports.logoutUser = async(req,res,next) =>{
+    res.clearCookie('token')
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+    await blacklistTokenModel.create({token})
+    res.status(200).json({ message : 'Logged Out' })
 }

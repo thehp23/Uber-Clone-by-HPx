@@ -1,5 +1,12 @@
+Parent to child 
+parent->child
+
 server.js -> app.js -> services -> models -> controllers -> routes
 
 server.js -> db
 
 app.js -> .env
+
+models -> middlewares
+bcrypt -> middlewares
+jwt -> middlewares
