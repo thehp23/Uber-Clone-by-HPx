@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const blacklistTokenModel = require('../models/blacklistToken.model')
 
 
-
+//register module
 module.exports.registerUser = async(req,res,next) =>{ //user register
     const errors = validationResult(req);
     if(!errors.isEmpty()){  // If any errors occured in body of express-validator then show the result here as an error
@@ -16,6 +16,15 @@ module.exports.registerUser = async(req,res,next) =>{ //user register
     }
 
     const {fullname,email,password} = req.body;
+
+     const isUserAlreadyExist = await userModel.findOne({ email })
+        if(isUserAlreadyExist){
+            return res.status(400).json({
+                success : false,
+                message : 'User already exist'
+            })
+        }
+    
 
     const hashedPass = await userModel.hashPassword(password);
 
@@ -33,8 +42,10 @@ module.exports.registerUser = async(req,res,next) =>{ //user register
         token,
         user
     })//responded to the user with token
-
 }
+
+
+//login module
 module.exports.loginUser = async(req,res,next)=>{ //user login
     const errors = validationResult(req);// If any errors occured in body of express-validator then show the result here as an error
     if(!errors.isEmpty()){
@@ -45,10 +56,7 @@ module.exports.loginUser = async(req,res,next)=>{ //user login
     }
     const { email, password } = req.body
 
-    const user = await userModel.findOne({email}).select('+password') 
-    console.log("LOGIN DEBUG:");
-    console.log("Entered password:", password);
-    console.log("DB password:", user?.password);//find email and check the password..is it matched or not
+    const user = await userModel.findOne({email}).select('+password') //find email and check the password..is it matched or not
     if(!user){
         return res.status(401).json({
             success : false,
@@ -80,9 +88,15 @@ module.exports.loginUser = async(req,res,next)=>{ //user login
         token,user
     })//responded to the user with token
 }
+
+
+//profile module
 module.exports.getUserProfile = async(req,res,next)=>{ //user profile
     res.status(200).json(req.user)
 }
+
+
+//logout module
 module.exports.logoutUser = async(req,res,next) =>{
     res.clearCookie('token')
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
