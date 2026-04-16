@@ -1,19 +1,17 @@
-const http = require('http')
-const app = require('./app')
-const port = process.env.PORT || 3000; //port
-const connectToDb = require('./db/db') //database connect
-connectToDb();
+const http = require('http');
+const app = require('./app');
+const port = process.env.PORT || 4000;
+
+const {initializeSocket} = require('./socket');
 
 
 
+// ✅ FIRST create server
+const server = http.createServer(app);
 
-const server = http.createServer(app); //create server
+// ✅ THEN initialize socket
+initializeSocket(server);
 
-
-
-
-
-
-server.listen(port,()=>{
-    console.log(`Server is running on : http://localhost:4000`);
+server.listen(port, () => {
+    console.log(`Server is running on :${port}`);
 });

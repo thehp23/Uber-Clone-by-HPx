@@ -16,6 +16,8 @@ router.post('/login',[
      body('password').isLength({min:8}).withMessage('Password must be atleast 8 characters')
 ],userController.loginUser); //user login
 
-router.post('/profile',authMiddleware.authUser,userController.getUserProfile); //user profile
+router.get('/profile',authMiddleware.authUser,userController.getUserProfile); //user profile
 router.post('/logout',authMiddleware.authUser,userController.logoutUser); //user logout
+
+
 module.exports = router;

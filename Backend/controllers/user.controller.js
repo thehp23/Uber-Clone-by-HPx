@@ -34,6 +34,8 @@ module.exports.registerUser = async(req,res,next) =>{ //user register
         email,
         password : hashedPass
     })//hash password successfull
+console.log("🔐 SIGN SECRET:", process.env.JWT_SECRET);
+
 
     const token = user.generateAuthToken(); //token generated at register page
     user.password = undefined;
@@ -77,7 +79,7 @@ module.exports.loginUser = async(req,res,next)=>{ //user login
             message : "Invalid email aor password"
         }) //if password does not match with original
     }
-
+console.log("🔐 SIGN SECRET:", process.env.JWT_SECRET);
 
     const token = user.generateAuthToken();//once again token generated at login page
     res.cookie("token", token)//after all authentication we work with cookie and send as response from server to browser and store in browser cookie
@@ -91,9 +93,14 @@ module.exports.loginUser = async(req,res,next)=>{ //user login
 
 
 //profile module
-module.exports.getUserProfile = async(req,res,next)=>{ //user profile
-    res.status(200).json(req.user)
-}
+module.exports.getUserProfile = async (req, res, next) => {
+    if (!req.user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+    }
+    // send user safely without _doc
+    const { _id, firstname, lastname, email } = req.user;
+    res.status(200).json({ success: true, user: { _id, firstname, lastname, email } });
+};
 
 
 //logout module

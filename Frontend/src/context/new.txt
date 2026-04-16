@@ -1,0 +1,11 @@
+//   useEffect(() => {
+//   if (socket.connected && user?._id) {
+//     console.log("📤 JOIN USER:", user._id);
+//     socket.emit("join", { userId: user._id, userType: "user" });
+//   }
+
+//   if (socket.connected && captain?._id) {
+//     console.log("📤 JOIN CAPTAIN:", captain._id);
+//     socket.emit("join", { userId: captain._id, userType: "captain" });
+//   }
+// }, [user?._id, captain?._id]);

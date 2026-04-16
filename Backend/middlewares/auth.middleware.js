@@ -10,16 +10,19 @@ module.exports.authUser = async (req,res,next)=>{
 
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];  //for finding token we can requst to the cookies 
 // [1] -> it is indicate the token part in header
+console.log("👉 TOKEN RECEIVED:", token);
 if(!token){
-    res.status(401).json({message : 'Unauthorized'})
+   return res.status(401).json({message : 'Unauthorized'})
 }
 
 const isBlacklisted = await blacklistTokenModel.findOne({ token : token})
 if(isBlacklisted){
-    res.status(401).json({message : 'UnauthorizedToken'})
+   return res.status(401).json({message : 'UnauthorizedToken'})
 }
 
 try{
+    console.log("🔐 VERIFY SECRET:", process.env.JWT_SECRET);
+console.log("👉 TOKEN RECEIVED:", token);
     const decoded = jwt.verify(token,process.env.JWT_SECRET) //After assigned jwt verify 
     const user = await userModel.findById(decoded._id) //where you assigned the user data in jwt assigned(jwt.sign) phase, so we enter that data with decoded
     
@@ -38,13 +41,15 @@ try{
 module.exports.authCaptain = async (req,res,next)=>{
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1]//for finding token we can requst to the cookies 
 // [1] -> it is indicate the token part in header
+console.log("👉 TOKEN RECEIVED:", token);
+
     if(!token){
-        res.status(401).json({message : 'Unauthorized'})
+        return res.status(401).json({message : 'Unauthorized'})
     }
 
     const isBlacklisted = await blacklistTokenModel.findOne({ token : token})
     if(isBlacklisted){
-    res.status(401).json({message : 'UnauthorizedToken'})
+     return res.status(401).json({message : 'UnauthorizedToken'})
     }
 
     try{
@@ -57,4 +62,4 @@ module.exports.authCaptain = async (req,res,next)=>{
     }catch(err){
         return res.status(401).json({message : 'Unauthorized verfication'})
     }
-}
+  }

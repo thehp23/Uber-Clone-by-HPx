@@ -1,1 +1,18 @@
 @import "tailwindcss";
+@keyframes enter {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes leave {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-20px); opacity: 0; }
+}
+
+.animate-enter {
+  animation: enter 0.3s ease forwards;
+}
+
+.animate-leave {
+  animation: leave 0.2s ease forwards;
+}
