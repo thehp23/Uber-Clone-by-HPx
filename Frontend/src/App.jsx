@@ -6,7 +6,7 @@ import UserProtectWrapper from './pages/UserProtectWrapper'
 import UserSignup from './pages/UserSignup'
 import UserLogin from './pages/UserLogin'
 import Start from './pages/Start'
-// import Home from './pages/Home'
+import UserPayment from './pages/UserPayment'
 import UserLogout from './pages/UserLogout'
 
 import Terms from './pages/Terms'
@@ -38,6 +38,7 @@ const App = () => {
     <RentalProvider>
 
       {/* 🔥 GLOBAL TOASTER */}
+      
       <Toaster
         position="top-right"
         reverseOrder={false}
@@ -71,6 +72,7 @@ const App = () => {
           <Route path="/ride" element={<Ride />} />
           <Route path="/ride/choose-ride" element={<ChooseRide />} />
           <Route path="/ride/searching" element={<LookingForDriver />} />
+          <Route path="/payment" element={<UserPayment />} />
 
           {/* 🔥 RENTAL FLOW */}
           <Route path="/rental" element={<RentalLayout />}>

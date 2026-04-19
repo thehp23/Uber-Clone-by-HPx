@@ -55,6 +55,7 @@ router.post(
   rideController.startRide
 );
 router.post("/finish", rideController.finishRide);
+router.post("/mark-paid", rideController.markPaymentDone);
 
 
 

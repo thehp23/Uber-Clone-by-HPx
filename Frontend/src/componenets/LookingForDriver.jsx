@@ -15,6 +15,7 @@ const LookingForDriver = () => {
   // ✅ DRIVER STATE
   const [showDriver, setShowDriver] = useState(false);
   const [captainData, setCaptainData] = useState(null);
+  const [rideData, setRideData] = useState(null); // 🔥 ADD THIS
 
   // ✅ OTP STATE (ADDED)
   const [otp, setOtp] = useState("");
@@ -44,17 +45,20 @@ const LookingForDriver = () => {
     if (!socket) return;
 
     socket.on("ride-confirmed", (data) => {
-      console.log("🚗 Driver Received:", data);
+  console.log("🚗 Driver Received:", data);
 
-      setCaptainData(data.captain);
-      setShowDriver(true);
+  setCaptainData(data.captain);
+  setShowDriver(true);
 
-      // ✅ OTP FROM BACKEND
-      setOtp(data.ride?.otp);
+  setOtp(data.ride?.otp);
 
-      // ✅ COMPLETE PROGRESS
-      setProgress(100);
-    });
+  setProgress(100);
+
+  // 🔥 ADD THIS (STORE RIDE DATA)
+  setRideData(data.ride);
+
+
+});
 
     return () => {
       socket.off("ride-confirmed");
@@ -127,7 +131,7 @@ const LookingForDriver = () => {
         </div>
 
         {/* ROUTE */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex gap-3 mb-3">
 
           <div className="flex flex-col items-center mt-2">
             <FaCircle className="text-black text-xs" />
@@ -135,7 +139,7 @@ const LookingForDriver = () => {
             <FaSquare className="text-black text-xs" />
           </div>
 
-          <div className="flex flex-col gap-2 mb-4">
+          <div className="flex flex-col gap-2 ">
 
             <div className="leading-tight">
               <p className="text-gray-800 font-light">
@@ -156,16 +160,16 @@ const LookingForDriver = () => {
         </div>
 
         {/* PRICE */}
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-4">
           <div className="text-2xl font-bold">
             ₹{price ? Math.round(price) : "33"}
           </div>
-          <span className="text-gray-500 text-sm">Cash</span>
+          <span className="text-gray-500 text-sm"></span>
         </div>
 
         {/* ✅ DRIVER INFO */}
         {showDriver && (
-          <div className="mb-6 p-4 rounded-xl bg-linear-to-r from-gray-50 to-gray-100 shadow-lg border flex items-center gap-4">
+          <div className="mb-3 p-4 rounded-xl bg-linear-to-r from-gray-50 to-gray-100 shadow-lg border flex items-center gap-4">
 
             {/* IMAGE */}
             <div className="relative">
@@ -205,7 +209,7 @@ const LookingForDriver = () => {
 
         {/* 🔐 OTP DISPLAY (ADDED) */}
         {showDriver && otp && (
-          <div className="mb-3 p-1 rounded-xl bg-green-50 border border-green-400 shadow text-center">
+          <div className="mb-1 p-1 rounded-xl bg-green-50 border border-green-400 shadow text-center">
 
             <p className="text-sm text-gray-600 mb-2">
               Share this OTP with Driver
@@ -218,10 +222,27 @@ const LookingForDriver = () => {
           </div>
         )}
 
+{/* 💳 PAYMENT BUTTON */}
+{showDriver && rideData && (
+  <button
+    onClick={() =>
+      navigate("/payment", {
+        state: {
+          rideId: rideData?._id,
+          amount: rideData?.fare || price,
+        },
+      })
+    }
+    className="w-full mt-2 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition"
+  >
+    Proceed to Payment 💳
+  </button>
+)}
+
         {/* CANCEL BUTTON */}
         <button
           onClick={() => navigate("/ride/choose-ride")}
-          className="mt-1 bg-gray-100 text-red-500 py-3 rounded-lg font-medium hover:bg-gray-200 transition"
+          className="mt-2 bg-gray-100 text-red-500 py-3 rounded-lg font-medium hover:bg-gray-200 transition"
         >
           Cancel ride
         </button>

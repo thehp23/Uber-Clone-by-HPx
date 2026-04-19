@@ -73,43 +73,26 @@ cd Uber-Clone-by-HPx
 🌐 Running Application
 Frontend: http://localhost:5173
 Backend: http://localhost:5000
+
 📌 Detailed Documentation
 👉 Backend: backend/README.md
 👉 Frontend: frontend/README.md
+
 ⚡ Key Challenges Solved
 Managing secure authentication flow using JWT
 Structuring scalable backend architecture
 Synchronizing frontend and backend communication
 Ensuring smooth UI performance
+
 🚀 Future Improvements
 Real-time ride tracking using WebSockets
 Payment integration
 Ride history and analytics
 Improved UI/UX enhancements
+
 👨‍💻 Author
 
 Harsh Patel
 MERN Stack Developer
 🚀 Passionate about building real-world scalable applications
 
-📄 License
-
-This project is licensed under the MIT License.
-
-
----
-
-# 🔥 What I improved
-- Looks like **real production project**
-- Clean structure + better readability
-- Added **engineering thinking (important for interviews)**
-- Better flow (features → architecture → setup)
-
----
-
-# 🚀 Final step
-
-```bash
-git add README.md
-git commit -m "update main README professionally"
-git push

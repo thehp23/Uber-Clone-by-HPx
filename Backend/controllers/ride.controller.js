@@ -232,3 +232,43 @@ module.exports.finishRide = async (req, res) => {
     });
   }
 };
+
+
+module.exports.markPaymentDone = async (req, res) => {
+  try {
+    const { rideId, paymentId } = req.body;
+
+    const ride = await rideModel
+      .findById(rideId)
+      .populate("captain");
+
+    if (!ride) {
+      return res.status(404).json({ message: "Ride not found" });
+    }
+
+    // ✅ UPDATE PAYMENT STATUS
+    ride.paymentStatus = "paid";
+    ride.paymentId = paymentId;
+
+    await ride.save();
+
+    // 🔥 SEND SOCKET TO CAPTAIN
+    if (ride.captain?.socketId) {
+      sendMessageToSocketId(ride.captain.socketId, {
+        event: "payment-success",
+        data: {
+          rideId: ride._id,
+        },
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Payment marked as done",
+    });
+
+  } catch (error) {
+    console.log("❌ Payment Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};

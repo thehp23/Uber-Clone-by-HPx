@@ -17,8 +17,7 @@ const UserProvider = ({ children }) => {
   return;
 }
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/users/profile`,
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
