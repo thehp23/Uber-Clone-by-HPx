@@ -108,7 +108,7 @@ const ChooseRide = () => {
       // ✅ Navigate AFTER creating ride
       navigate("/ride/searching", {
         state: {
-          rideId: res.data.ride._id, // 🔥 important
+          rideId: res.data.ride._id, 
           pickup,
           drop,
           vehicleType: selectedRide,

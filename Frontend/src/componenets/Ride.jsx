@@ -100,7 +100,7 @@ const Ride = () => {
       pickup,
       destination: drop,
       time,
-      riderType, // 🔥 ADDED
+      riderType, 
       userId: user?._id || "",
       userName: user?.fullname?.firstname
         ? user.fullname.firstname + " " + user.fullname.lastname

@@ -10,7 +10,7 @@ function initializeSocket(server) {
     cors: {
       origin: "*", // Allow all origins, adjust as needed
       methods: ["GET", "POST"],
-    },
+    }
   });
 
   io.on("connection", (socket) => {
@@ -18,7 +18,9 @@ function initializeSocket(server) {
 
     socket.on("join", async (data) => {
       console.log("🔥 JOIN RECEIVED:", data);
+
       const { userId, userType } = data;
+      
       try {
         if (userType === "user") {
           const user = await userModel.findByIdAndUpdate(

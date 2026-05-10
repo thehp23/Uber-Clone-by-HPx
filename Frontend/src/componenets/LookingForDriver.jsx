@@ -45,20 +45,20 @@ const LookingForDriver = () => {
     if (!socket) return;
 
     socket.on("ride-confirmed", (data) => {
-  console.log("🚗 Driver Received:", data);
+      console.log("🚗 Driver Received:", data);
 
-  setCaptainData(data.captain);
-  setShowDriver(true);
+      setCaptainData(data.captain);
 
-  setOtp(data.ride?.otp);
+      setShowDriver(true);
 
-  setProgress(100);
+      setOtp(data.ride?.otp);
 
-  // 🔥 ADD THIS (STORE RIDE DATA)
-  setRideData(data.ride);
+      setProgress(100);
+
+      setRideData(data.ride);
 
 
-});
+    });
 
     return () => {
       socket.off("ride-confirmed");
@@ -123,9 +123,8 @@ const LookingForDriver = () => {
         {/* PROGRESS BAR */}
         <div className="w-full h-1 bg-gray-200 rounded mb-6">
           <div
-            className={`h-1 rounded transition-all duration-500 ${
-              showDriver ? "bg-green-500" : "bg-blue-500 animate-pulse"
-            }`}
+            className={`h-1 rounded transition-all duration-500 ${showDriver ? "bg-green-500" : "bg-blue-500 animate-pulse"
+              }`}
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -222,22 +221,22 @@ const LookingForDriver = () => {
           </div>
         )}
 
-{/* 💳 PAYMENT BUTTON */}
-{showDriver && rideData && (
-  <button
-    onClick={() =>
-      navigate("/payment", {
-        state: {
-          rideId: rideData?._id,
-          amount: rideData?.fare || price,
-        },
-      })
-    }
-    className="w-full mt-2 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition"
-  >
-    Proceed to Payment 💳
-  </button>
-)}
+        {/* 💳 PAYMENT BUTTON */}
+        {showDriver && rideData && (
+          <button
+            onClick={() =>
+              navigate("/payment", {
+                state: {
+                  rideId: rideData?._id,
+                  amount: rideData?.fare || price,
+                },
+              })
+            }
+            className="w-full mt-2 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition"
+          >
+            Proceed to Payment 💳
+          </button>
+        )}
 
         {/* CANCEL BUTTON */}
         <button
